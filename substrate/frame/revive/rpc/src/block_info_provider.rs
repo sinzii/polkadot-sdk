@@ -91,6 +91,11 @@ impl BlockInfoProvider for SubxtBlockInfoProvider {
 			SubscriptionType::FinalizedBlocks => self.latest_finalized_block.write().await,
 			SubscriptionType::BestBlocks => self.latest_block.write().await,
 		};
+		let best = match subscription_type {
+			SubscriptionType::FinalizedBlocks => "finalized",
+			SubscriptionType::BestBlocks => "best",
+		};
+		log::debug!(target: "eth-rpc::client", "====> Setting the {:?} block to {:?} {:?}", best, block.hash(), block.number());
 		*latest = Arc::new(block);
 	}
 
@@ -108,11 +113,14 @@ impl BlockInfoProvider for SubxtBlockInfoProvider {
 	) -> Result<Option<Arc<SubstrateBlock>>, ClientError> {
 		let latest = self.latest_block().await;
 		if block_number == latest.number() {
+			log::debug!(target: "eth-rpc::client", "block_number is best numver");
 			return Ok(Some(latest));
 		}
 
 		let latest_finalized = self.latest_finalized_block().await;
 		if block_number == latest_finalized.number() {
+
+			log::debug!(target: "eth-rpc::client", "block_number is finalized numver");
 			return Ok(Some(latest_finalized));
 		}
 
@@ -121,7 +129,11 @@ impl BlockInfoProvider for SubxtBlockInfoProvider {
 		};
 
 		match self.api.blocks().at(hash).await {
-			Ok(block) => Ok(Some(Arc::new(block))),
+			Ok(block) => {
+
+			log::debug!(target: "eth-rpc::client", "match arm");
+				Ok(Some(Arc::new(block)))
+			},
 			Err(subxt::Error::Block(subxt::error::BlockError::NotFound(_))) => Ok(None),
 			Err(err) => Err(err.into()),
 		}

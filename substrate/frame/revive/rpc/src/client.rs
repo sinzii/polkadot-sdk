@@ -177,7 +177,7 @@ pub struct Client {
 	/// A notifier, that informs subscribers of new best blocks.
 	block_notifier: Option<tokio::sync::broadcast::Sender<H256>>,
 	/// A lock to ensure only one subscription can perform write operations at a time.
-	subscription_lock: Arc<Mutex<()>>,
+	pub subscription_lock: Arc<Mutex<()>>,
 }
 
 /// Fetch the chain ID from the substrate chain.
@@ -365,7 +365,14 @@ impl Client {
 				.into_iter()
 				.unzip();
 
+			let number = block.number();
+			let h = block.hash();
 			self.block_provider.update_latest(block, subscription_type).await;
+			let upd = match subscription_type {
+				SubscriptionType::BestBlocks => "best",
+				SubscriptionType::FinalizedBlocks => "finalized",
+			};
+			log::debug!(target: LOG_TARGET, "----> Updated the {:?} block to: {:?} {:?}", upd, number, h);
 			self.fee_history_provider.update_fee_history(&evm_block, &receipts).await;
 
 			// Only broadcast for best blocks to avoid duplicate notifications.
@@ -558,15 +565,18 @@ impl Client {
 	) -> Result<Option<Arc<SubstrateBlock>>, ClientError> {
 		match block {
 			BlockNumberOrTag::U256(n) => {
+				log::debug!(target: LOG_TARGET, "----> number");
 				let n = (*n).try_into().map_err(|_| ClientError::ConversionFailed)?;
 				self.block_by_number(n).await
 			},
 			BlockNumberOrTag::BlockTag(BlockTag::Finalized | BlockTag::Safe) => {
+				log::debug!(target: LOG_TARGET, "----> finalized or safe");
 				let block = self.block_provider.latest_finalized_block().await;
 				Ok(Some(block))
 			},
 			BlockNumberOrTag::BlockTag(_) => {
 				let block = self.block_provider.latest_block().await;
+				log::debug!(target: LOG_TARGET, "----> latest block {:?} {:?}", block.clone().hash(), block.clone().number());
 				Ok(Some(block))
 			},
 		}
