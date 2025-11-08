@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1762545786450,
+  "lastUpdate": 1762592968778,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-recovery-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "117115317+lrubasze@users.noreply.github.com",
-            "name": "Lukasz Rubaszewski",
-            "username": "lrubasze"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "f331a447ca698b3f14389f7e4a2f912152d7544c",
-          "message": "Align `zombienet-sdk`-based tests with breaking change (#8442)\n\nThis PR updates the tests so they are compatible with latest changes in\n`zombienet-sdk`.\n\n# Description\n\nTests that use `wait_log_line_count_with_timeout()` method have been\nupdated accordingly to the new signature of the method.\nDetails in https://github.com/paritytech/zombienet-sdk/pull/333\n\nAdditionally:\n- bumped `zombienet-sdk` to `v0.3.0`\n- Set `RUN_IN_CI=1` flag for `zombienet-sdk` tests",
-          "timestamp": "2025-05-12T09:22:28Z",
-          "tree_id": "39b13c9701634b4c4ac9a55e48b32a1316879640",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/f331a447ca698b3f14389f7e4a2f912152d7544c"
-        },
-        "date": 1747045156767,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 307203,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 1.6666666666666665,
-            "unit": "KiB"
-          },
-          {
-            "name": "availability-recovery",
-            "value": 11.3253793529,
-            "unit": "seconds"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.19093632509999997,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "test-environment",
             "value": 0.2051377545,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "giuseppe.re@parity.io",
+            "name": "Giuseppe Re",
+            "username": "re-gius"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2dc25d2298a83008b37734548c111627687ab413",
+          "message": "Remove outdated comment on Tracer Type (#10246)\n\nPrestate tracer type is now supported",
+          "timestamp": "2025-11-08T07:56:03Z",
+          "tree_id": "5b7454be4a0f0232968e4312e72a1dd2d3ff61fc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2dc25d2298a83008b37734548c111627687ab413"
+        },
+        "date": 1762592944497,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 307203,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 1.6666666666666665,
+            "unit": "KiB"
+          },
+          {
+            "name": "availability-recovery",
+            "value": 11.301333295833334,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.20024827056666675,
             "unit": "seconds"
           }
         ]
