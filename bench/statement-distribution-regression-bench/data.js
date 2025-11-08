@@ -1,52 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1762545888883,
+  "lastUpdate": 1762593067456,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "statement-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "10196091+Ank4n@users.noreply.github.com",
-            "name": "Ankan",
-            "username": "Ank4n"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": false,
-          "id": "5b8b5aa0bd6e21f2addd8a28fab92392575b41e2",
-          "message": "[StakingAsync] Remove SlashingSpan Logic (#8316)\n\nalso closes https://github.com/paritytech/polkadot-sdk/issues/2650\n\n## Summary\n\nThis PR removes the concept of slashing spans (`SlashingSpans`,\n`SpanSlash`) and all related metadata from `pallet-staking-async`.\n\nWhile working on this, I noticed some issues with the current span\nlogic:\n- Spans were always starting and ending during the processing of an\noffence, meaning they never actually spanned across multiple eras\n(likely due to changes in logic over time).\n- We don’t chill validators either, so the core reason for slashing span\nisn't exercised.\n\nBecause of these factors, slashing spans were not serving their intended\npurpose. Removing them simplifies the slashing logic significantly and\nallows us to drop a good chunk of unnecessary code.\n\n## API Changes (pallet-staking-async)\n### Removed\n- StorageMap SlashingSpans\n- StorageMap SpanSlash.\n- Error IncorrectSlashingSpans.\n\n### Deprecated\nFor the following extrinsic, the parameter `num_slashing_spans` is\ndeprecated and has no effect. It is left for backward compatibility.\n- withdraw_unbonded\n- force_unstake\n- reap_stash\n\n\n## Functional Changes:\nThe key functional change is around slashing rewards:\n\nPreviously:\n- The reward was 50% of 10% (`SlashRewardFraction`) of the slashed\namount.\n- For each successive slash in the same era, the reward would halve\nagain (e.g., 50%, then 25%, then 12.5%, etc.).\n\nWith this PR:\n- Successive offences are still filtered to only keep the highest slash\nper validator/nominator per era.\n- Halving the reward on successive offences is removed.\n- My take: this seems reasonable, since we already filter out weaker\noffences.\n- However, if we want to preserve this behaviour, we could still add a\ncounter of slashes per validator/nominator per era to implement the\nhalving logic.\n\n## TODO\n- [x] Race condition of offence test: Second offence comes before first\nis applied : This is doing this already `offence_discarded_correctly`.\n- [x] Preserve extrinsic signatures.\n\n---------\n\nCo-authored-by: Tsvetomir Dimitrov <tsvetomir@parity.io>",
-          "timestamp": "2025-05-08T10:14:53Z",
-          "tree_id": "fad4424da71cef7409c75274bbb6d16dd5776b18",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/5b8b5aa0bd6e21f2addd8a28fab92392575b41e2"
-        },
-        "date": 1746703059139,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Received from peers",
-            "value": 106.39999999999996,
-            "unit": "KiB"
-          },
-          {
-            "name": "Sent to peers",
-            "value": 127.962,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.04564342728399998,
-            "unit": "seconds"
-          },
-          {
-            "name": "statement-distribution",
-            "value": 0.034275782369999994,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -21999,6 +21955,50 @@ window.BENCHMARK_DATA = {
           {
             "name": "statement-distribution",
             "value": 0.03435290683599999,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "giuseppe.re@parity.io",
+            "name": "Giuseppe Re",
+            "username": "re-gius"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2dc25d2298a83008b37734548c111627687ab413",
+          "message": "Remove outdated comment on Tracer Type (#10246)\n\nPrestate tracer type is now supported",
+          "timestamp": "2025-11-08T07:56:03Z",
+          "tree_id": "5b7454be4a0f0232968e4312e72a1dd2d3ff61fc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2dc25d2298a83008b37734548c111627687ab413"
+        },
+        "date": 1762593043458,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Sent to peers",
+            "value": 127.95799999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "Received from peers",
+            "value": 106.39999999999996,
+            "unit": "KiB"
+          },
+          {
+            "name": "statement-distribution",
+            "value": 0.034413344278,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.04464300104599994,
             "unit": "seconds"
           }
         ]
