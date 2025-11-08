@@ -1,62 +1,8 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1762545820831,
+  "lastUpdate": 1762593001220,
   "repoUrl": "https://github.com/paritytech/polkadot-sdk",
   "entries": {
     "availability-distribution-regression-bench": [
-      {
-        "commit": {
-          "author": {
-            "email": "117115317+lrubasze@users.noreply.github.com",
-            "name": "Lukasz Rubaszewski",
-            "username": "lrubasze"
-          },
-          "committer": {
-            "email": "noreply@github.com",
-            "name": "GitHub",
-            "username": "web-flow"
-          },
-          "distinct": true,
-          "id": "f331a447ca698b3f14389f7e4a2f912152d7544c",
-          "message": "Align `zombienet-sdk`-based tests with breaking change (#8442)\n\nThis PR updates the tests so they are compatible with latest changes in\n`zombienet-sdk`.\n\n# Description\n\nTests that use `wait_log_line_count_with_timeout()` method have been\nupdated accordingly to the new signature of the method.\nDetails in https://github.com/paritytech/zombienet-sdk/pull/333\n\nAdditionally:\n- bumped `zombienet-sdk` to `v0.3.0`\n- Set `RUN_IN_CI=1` flag for `zombienet-sdk` tests",
-          "timestamp": "2025-05-12T09:22:28Z",
-          "tree_id": "39b13c9701634b4c4ac9a55e48b32a1316879640",
-          "url": "https://github.com/paritytech/polkadot-sdk/commit/f331a447ca698b3f14389f7e4a2f912152d7544c"
-        },
-        "date": 1747045181375,
-        "tool": "customSmallerIsBetter",
-        "benches": [
-          {
-            "name": "Sent to peers",
-            "value": 18481.666666666653,
-            "unit": "KiB"
-          },
-          {
-            "name": "Received from peers",
-            "value": 433.3333333333332,
-            "unit": "KiB"
-          },
-          {
-            "name": "test-environment",
-            "value": 0.008723245900000072,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-store",
-            "value": 0.1575692097266667,
-            "unit": "seconds"
-          },
-          {
-            "name": "availability-distribution",
-            "value": 0.01286973854666667,
-            "unit": "seconds"
-          },
-          {
-            "name": "bitfield-distribution",
-            "value": 0.022610222906666665,
-            "unit": "seconds"
-          }
-        ]
-      },
       {
         "commit": {
           "author": {
@@ -26999,6 +26945,60 @@ window.BENCHMARK_DATA = {
           {
             "name": "availability-distribution",
             "value": 0.013303046473333332,
+            "unit": "seconds"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "giuseppe.re@parity.io",
+            "name": "Giuseppe Re",
+            "username": "re-gius"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "2dc25d2298a83008b37734548c111627687ab413",
+          "message": "Remove outdated comment on Tracer Type (#10246)\n\nPrestate tracer type is now supported",
+          "timestamp": "2025-11-08T07:56:03Z",
+          "tree_id": "5b7454be4a0f0232968e4312e72a1dd2d3ff61fc",
+          "url": "https://github.com/paritytech/polkadot-sdk/commit/2dc25d2298a83008b37734548c111627687ab413"
+        },
+        "date": 1762592977456,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Received from peers",
+            "value": 433.3333333333332,
+            "unit": "KiB"
+          },
+          {
+            "name": "Sent to peers",
+            "value": 18481.666666666653,
+            "unit": "KiB"
+          },
+          {
+            "name": "bitfield-distribution",
+            "value": 0.02260853536666666,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-distribution",
+            "value": 0.013384031253333333,
+            "unit": "seconds"
+          },
+          {
+            "name": "availability-store",
+            "value": 0.1593564478733334,
+            "unit": "seconds"
+          },
+          {
+            "name": "test-environment",
+            "value": 0.0074808082533333094,
             "unit": "seconds"
           }
         ]
